@@ -11,12 +11,13 @@ let noTouched = false;
 
 
 /* =========================
-   EVET BUTONU
+   EVET
 ========================= */
 
 yesBtn.addEventListener("click", function () {
 
     home.classList.remove("active");
+
     yesPage.classList.add("active");
 
     createConfetti();
@@ -31,6 +32,7 @@ yesBtn.addEventListener("click", function () {
 function showNoPage() {
 
     home.classList.remove("active");
+
     noPage.classList.add("active");
 
 }
@@ -45,48 +47,53 @@ function moveNoButton(mouseX, mouseY) {
     const buttonWidth = noBtn.offsetWidth;
     const buttonHeight = noBtn.offsetHeight;
 
-    const padding = 20;
+    const margin = 20;
 
     const maxX =
         window.innerWidth -
         buttonWidth -
-        padding;
+        margin;
 
     const maxY =
         window.innerHeight -
         buttonHeight -
-        padding;
+        margin;
 
-    let x;
-    let y;
-    let tries = 0;
+    let newX;
+    let newY;
+
+    let attempts = 0;
+
 
     do {
 
-        x =
-            padding +
+        newX =
+            margin +
             Math.random() *
-            Math.max(1, maxX - padding);
+            Math.max(1, maxX - margin);
 
-        y =
-            padding +
+        newY =
+            margin +
             Math.random() *
-            Math.max(1, maxY - padding);
+            Math.max(1, maxY - margin);
 
-        tries++;
+        attempts++;
 
     } while (
         Math.hypot(
-            x + buttonWidth / 2 - mouseX,
-            y + buttonHeight / 2 - mouseY
-        ) < 180 &&
-        tries < 100
+            newX + buttonWidth / 2 - mouseX,
+            newY + buttonHeight / 2 - mouseY
+        ) < 170
+        &&
+        attempts < 100
     );
 
 
     noBtn.style.position = "fixed";
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+
+    noBtn.style.left = newX + "px";
+
+    noBtn.style.top = newY + "px";
 
 
     message.textContent =
@@ -94,8 +101,8 @@ function moveNoButton(mouseX, mouseY) {
 
 
     /*
-       Mouse HAYIR'a geldiği anda
-       kötü kediler açılır.
+       İlk kez HAYIR'a yaklaşınca
+       kötü kediler açılıyor.
     */
 
     if (!noTouched) {
@@ -103,7 +110,9 @@ function moveNoButton(mouseX, mouseY) {
         noTouched = true;
 
         setTimeout(function () {
+
             showNoPage();
+
         }, 250);
 
     }
@@ -112,7 +121,7 @@ function moveNoButton(mouseX, mouseY) {
 
 
 /* =========================
-   MOUSE TAKİBİ
+   MOUSE HAREKETİ
 ========================= */
 
 document.addEventListener(
@@ -143,11 +152,11 @@ document.addEventListener(
 
 
         /*
-           Mouse HAYIR'ın üzerine
-           geldiğinde kaçır.
+           Mouse butona yaklaşınca
+           HAYIR kaçar.
         */
 
-        if (distance < 45) {
+        if (distance < 70) {
 
             moveNoButton(
                 event.clientX,
@@ -161,18 +170,21 @@ document.addEventListener(
 
 
 /* =========================
-   HAYIR'A GERÇEKTEN BASILIRSA
+   HAYIR'A BASILIRSA
 ========================= */
 
-noBtn.addEventListener("click", function () {
+noBtn.addEventListener(
+    "click",
+    function () {
 
-    showNoPage();
+        showNoPage();
 
-});
+    }
+);
 
 
 /* =========================
-   MOBİL
+   TELEFON
 ========================= */
 
 noBtn.addEventListener(
@@ -231,14 +243,14 @@ function createConfetti() {
 
 
         piece.style.fontSize =
-            (
-                12 +
-                Math.random() * 18
-            ) + "px";
+            12 +
+            Math.random() * 18 +
+            "px";
 
 
         piece.style.animationDelay =
-            Math.random() * 1.5 + "s";
+            Math.random() * 1.5 +
+            "s";
 
 
         container.appendChild(piece);
@@ -246,19 +258,3 @@ function createConfetti() {
     }
 
 }
-
-
-/* =========================
-   BAŞLANGIÇ AYARLARI
-========================= */
-
-window.addEventListener(
-    "load",
-    function () {
-
-        noBtn.style.position = "relative";
-        noBtn.style.left = "0px";
-        noBtn.style.top = "0px";
-
-    }
-);
