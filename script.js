@@ -7,17 +7,16 @@ const noBtn = document.getElementById("noBtn");
 
 const message = document.getElementById("message");
 
-let noTouched = false;
+let noPageOpen = false;
 
 
 /* =========================
-   EVET
+   EVET BUTONU
 ========================= */
 
 yesBtn.addEventListener("click", function () {
 
     home.classList.remove("active");
-
     yesPage.classList.add("active");
 
     createConfetti();
@@ -26,14 +25,43 @@ yesBtn.addEventListener("click", function () {
 
 
 /* =========================
-   HAYIR EKRANI
+   HAYIR EKRANINI GÖSTER
 ========================= */
 
 function showNoPage() {
 
-    home.classList.remove("active");
+    if (noPageOpen) {
+        return;
+    }
 
+    noPageOpen = true;
+
+    home.classList.remove("active");
     noPage.classList.add("active");
+
+
+    /*
+       5 saniye sonra tekrar ana ekrana dön
+    */
+
+    setTimeout(function () {
+
+        noPage.classList.remove("active");
+        home.classList.add("active");
+
+        noPageOpen = false;
+
+        message.textContent = "";
+
+        /*
+           HAYIR'ı tekrar normal yerine getir
+        */
+
+        noBtn.style.position = "relative";
+        noBtn.style.left = "0px";
+        noBtn.style.top = "0px";
+
+    }, 5000);
 
 }
 
@@ -43,6 +71,10 @@ function showNoPage() {
 ========================= */
 
 function moveNoButton(mouseX, mouseY) {
+
+    if (noPageOpen) {
+        return;
+    }
 
     const buttonWidth = noBtn.offsetWidth;
     const buttonHeight = noBtn.offsetHeight;
@@ -83,16 +115,13 @@ function moveNoButton(mouseX, mouseY) {
         Math.hypot(
             newX + buttonWidth / 2 - mouseX,
             newY + buttonHeight / 2 - mouseY
-        ) < 170
-        &&
+        ) < 170 &&
         attempts < 100
     );
 
 
     noBtn.style.position = "fixed";
-
     noBtn.style.left = newX + "px";
-
     noBtn.style.top = newY + "px";
 
 
@@ -101,21 +130,10 @@ function moveNoButton(mouseX, mouseY) {
 
 
     /*
-       İlk kez HAYIR'a yaklaşınca
-       kötü kediler açılıyor.
+       Kötü kedileri göster
     */
 
-    if (!noTouched) {
-
-        noTouched = true;
-
-        setTimeout(function () {
-
-            showNoPage();
-
-        }, 250);
-
-    }
+    showNoPage();
 
 }
 
@@ -129,6 +147,10 @@ document.addEventListener(
     function (event) {
 
         if (!home.classList.contains("active")) {
+            return;
+        }
+
+        if (noPageOpen) {
             return;
         }
 
@@ -152,8 +174,8 @@ document.addEventListener(
 
 
         /*
-           Mouse butona yaklaşınca
-           HAYIR kaçar.
+           Mouse HAYIR'a
+           yeterince yaklaşınca
         */
 
         if (distance < 70) {
@@ -170,7 +192,7 @@ document.addEventListener(
 
 
 /* =========================
-   HAYIR'A BASILIRSA
+   HAYIR'A TIKLANIRSA
 ========================= */
 
 noBtn.addEventListener(
@@ -219,6 +241,9 @@ function createConfetti() {
         "✨",
         "🎉"
     ];
+
+
+    container.innerHTML = "";
 
 
     for (let i = 0; i < 80; i++) {
