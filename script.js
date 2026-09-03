@@ -1,34 +1,53 @@
-const yesButton = document.getElementById("yesButton");
-const noButton = document.getElementById("noButton");
+const mainScreen =
+    document.getElementById("mainScreen");
 
-const mainScreen = document.getElementById("mainScreen");
-const yesScreen = document.getElementById("yesScreen");
-const noScreen = document.getElementById("noScreen");
+const yesScreen =
+    document.getElementById("yesScreen");
 
-const escapeText = document.getElementById("escapeText");
+const noScreen =
+    document.getElementById("noScreen");
 
-let noAttempts = 0;
+const yesButton =
+    document.getElementById("yesButton");
+
+const noButton =
+    document.getElementById("noButton");
+
+const escapeMessage =
+    document.getElementById("escapeMessage");
+
+
+let escapeCount = 0;
 
 
 /* =========================
-   EKRAN DEĞİŞTİRME
+   EVET
 ========================= */
 
-function showYesScreen() {
+yesButton.addEventListener(
+    "click",
+    function () {
 
-    mainScreen.classList.remove("active");
+        mainScreen.classList.remove("active");
 
-    yesScreen.classList.add("active");
+        yesScreen.classList.add("active");
 
-    createConfetti();
-}
+        startConfetti();
 
+    }
+);
+
+
+/* =========================
+   HAYIR EKRANI
+========================= */
 
 function showNoScreen() {
 
     mainScreen.classList.remove("active");
 
     noScreen.classList.add("active");
+
 }
 
 
@@ -36,104 +55,121 @@ function showNoScreen() {
    HAYIR BUTONUNU KAÇIR
 ========================= */
 
-function moveNoButton(mouseX, mouseY) {
+function escapeNoButton(
+    mouseX,
+    mouseY
+) {
 
-    const rect = noButton.getBoundingClientRect();
+    const width =
+        noButton.offsetWidth;
 
-    const buttonWidth = rect.width;
-    const buttonHeight = rect.height;
+    const height =
+        noButton.offsetHeight;
 
-    const padding = 20;
+
+    const padding = 15;
+
 
     const maxX =
         window.innerWidth -
-        buttonWidth -
+        width -
         padding;
+
 
     const maxY =
         window.innerHeight -
-        buttonHeight -
+        height -
         padding;
+
 
     let newX;
     let newY;
 
-    /*
-       Yeni konum mouse'a yakın olmasın.
-    */
+    let tries = 0;
 
-    let attempts = 0;
 
     do {
 
         newX =
             padding +
-            Math.random() * Math.max(1, maxX - padding);
+            Math.random() *
+            Math.max(1, maxX - padding);
+
 
         newY =
             padding +
-            Math.random() * Math.max(1, maxY - padding);
+            Math.random() *
+            Math.max(1, maxY - padding);
 
-        attempts++;
 
-        /*
-           Sonsuz döngüye karşı güvenlik.
-        */
-
-        if (attempts > 100) {
-            break;
-        }
+        tries++;
 
     } while (
+
         Math.hypot(
             newX - mouseX,
             newY - mouseY
         ) < 220
+
+        &&
+
+        tries < 100
+
     );
 
 
     noButton.style.left =
-        ${newX}px;
+        newX + "px";
 
     noButton.style.top =
-        ${newY}px;
+        newY + "px";
 
 
-    noAttempts++;
+    escapeCount++;
 
 
     const messages = [
-        "HAYIR BUTONU KAÇTI 😭",
-        "Yakalayamazsın 🏃‍♂️",
+
+        "HAYIR KAÇTI 😭",
+
+        "Yakalayamazsın! 🏃",
+
         "Anne yaklaşma 😭",
-        "Biraz daha dene 😂",
-        "O buton senden hızlı.",
-        "KEDİ İÇİN MÜCADELE EDİYORUZ 🐱",
-        "Hayır demek o kadar kolay değil 😈",
-        "Pes et artık 😭🐱"
+
+        "Kedi için mücadele ediyoruz! 🐱",
+
+        "O kadar kolay değil 😂",
+
+        "HAYIR BUTONU SENİ İSTEMİYOR 😭",
+
+        "Biraz daha hızlı olmalısın! 🏃‍♂️"
+
     ];
 
 
-    escapeText.textContent =
+    escapeMessage.textContent =
         messages[
             Math.min(
-                noAttempts - 1,
+                escapeCount - 1,
                 messages.length - 1
             )
         ];
+
 }
 
 
 /* =========================
-   MOUSE HAYIR'A YAKLAŞIRSA
+   MOUSE TAKİBİ
 ========================= */
 
 document.addEventListener(
     "mousemove",
-    function(event) {
+    function (event) {
 
         if (
-            !mainScreen.classList.contains("active")
+            !mainScreen.classList.contains(
+                "active"
+            )
         ) {
             return;
         }
@@ -146,6 +182,7 @@ document.addEventListener(
         const centerX =
             rect.left +
             rect.width / 2;
+
 
         const centerY =
             rect.top +
@@ -160,13 +197,12 @@ document.addEventListener(
 
 
         /*
-           Mouse butona 140px yaklaşırsa
-           HAYIR kaçıyor.
+           160 piksel yaklaşınca kaç.
         */
 
-        if (distance < 140) {
+        if (distance < 160) {
 
-            moveNoButton(
+            escapeNoButton(
                 event.clientX,
                 event.clientY
             );
@@ -178,45 +214,12 @@ document.addEventListener(
 
 
 /* =========================
-   MOBİL
+   HAYIR'A TIKLANIRSA
 ========================= */
 
 noButton.addEventListener(
-    "touchstart",
-    function(event) {
-
-        /*
-           Mobilde dokunmaya çalışınca
-           HAYIR da kaçıyor.
-        */
-
-        event.preventDefault();
-
-
-        const touch =
-            event.touches[0];
-
-
-        moveNoButton(
-            touch.clientX,
-            touch.clientY
-        );
-
-    },
-    {
-        passive: false
-    }
-);
-
-
-/*
-   Mobilde gerçekten tıklama oluşursa
-   kötü kedi ekranını aç.
-*/
-
-noButton.addEventListener(
     "click",
-    function() {
+    function () {
 
         showNoScreen();
 
@@ -225,139 +228,81 @@ noButton.addEventListener(
 
 
 /* =========================
-   EVET
+   MOBİL
 ========================= */
 
-yesButton.addEventListener(
-    "click",
-    function() {
+/*
+   Telefonda mouse olmadığı için
+   parmak HAYIR'a dokunduğunda
+   direkt kötü kedi ekranı açılıyor.
 
-        showYesScreen();
+   Böylece mobilde de kedi4 ve kedi5
+   kesinlikle çıkıyor.
+*/
 
+noButton.addEventListener(
+    "touchstart",
+    function (event) {
+
+        event.preventDefault();
+
+        showNoScreen();
+
+    },
+    {
+        passive: false
     }
 );
 
 
 /* =========================
-   KONFETİ
+   HAYIR İLK KONUM
 ========================= */
 
-function createConfetti() {
-
-    const container =
-        document.getElementById(
-            "confettiContainer"
-        );
-
-
-    const symbols = [
-        "❤️",
-        "💖",
-        "💕",
-        "🐾",
-        "🎉",
-        "✨",
-        "💗"
-    ];
-
-
-    for (
-        let i = 0;
-        i < 90;
-        i++
-    ) {
-
-        const piece =
-            document.createElement("div");
-
-
-        piece.classList.add(
-            "confetti"
-        );
-
-
-        piece.textContent =
-            symbols[
-                Math.floor(
-                    Math.random() *
-                    symbols.length
-                )
-            ];
-
-
-        piece.style.left =
-            Math.random() *
-            100 +
-            "vw";
-
-
-        piece.style.animationDelay =
-            Math.random() *
-            1.5 +
-            "s";
-
-
-        piece.style.fontSize =
-            12 +
-            Math.random() *
-            20 +
-            "px";
-
-
-        container.appendChild(
-            piece
-        );
-
-    }
-
-}
-
-
-/* =========================
-   İLK HAYIR KONUMU
-========================= */
-
-function setInitialNoPosition() {
+function placeNoButton() {
 
     const yesRect =
         yesButton.getBoundingClientRect();
 
 
     noButton.style.left =
-        ${yesRect.right + 20}px;
+        (
+            yesRect.right + 18
+        ) + "px";
 
 
     noButton.style.top =
-        ${yesRect.top}px;
+        yesRect.top + "px";
 
 }
 
 
-/*
-   Sayfa tamamen yüklenince
-   ilk konumu ayarla.
-*/
+/* =========================
+   SAYFA AÇILINCA
+========================= */
 
 window.addEventListener(
     "load",
-    function() {
+    function () {
 
-        setInitialNoPosition();
+        placeNoButton();
 
     }
 );
 
 
 /* =========================
-   EKRAN BOYUTU DEĞİŞİRSE
+   EKRAN DÖNERSE
 ========================= */
 
 window.addEventListener(
     "resize",
-    function() {
+    function () {
 
         if (
-            !mainScreen.classList.contains("active")
+            !mainScreen.classList.contains(
+                "active"
+            )
         ) {
             return;
         }
@@ -368,6 +313,7 @@ window.addEventListener(
 
 
         let x = rect.left;
+
         let y = rect.top;
 
 
@@ -379,7 +325,7 @@ window.addEventListener(
             x =
                 window.innerWidth -
                 rect.width -
-                20;
+                15;
 
         }
 
@@ -392,7 +338,7 @@ window.addEventListener(
             y =
                 window.innerHeight -
                 rect.height -
-                20;
+                15;
 
         }
 
@@ -408,11 +354,88 @@ window.addEventListener(
 
 
         noButton.style.left =
-            ${x}px;
-
+            x + "px";
 
         noButton.style.top =
-            ${y}px;
+            y + "px";
 
     }
 );
+
+
+/* =========================
+   KONFETİ
+========================= */
+
+function startConfetti() {
+
+    const container =
+        document.getElementById(
+            "confetti"
+        );
+
+
+    const things = [
+        "❤️",
+        "💕",
+        "💖",
+        "🐾",
+        "✨",
+        "🎉",
+        "💗"
+    ];
+
+
+    for (
+        let i = 0;
+        i < 100;
+        i++
+    ) {
+
+        const piece =
+            document.createElement(
+                "div"
+            );
+
+
+        piece.className =
+            "confetti-piece";
+
+
+        piece.textContent =
+            things[
+                Math.floor(
+                    Math.random() *
+                    things.length
+                )
+            ];
+
+
+        piece.style.left =
+            Math.random() *
+            100 +
+            "vw";
+
+
+        piece.style.fontSize =
+            (
+                12 +
+                Math.random() *
+                20
+            ) +
+            "px";
+
+
+        piece.style.animationDelay =
+            Math.random() *
+            1.5 +
+            "s";
+
+
+        container.appendChild(
+            piece
+        );
+
+    }
+
+}
