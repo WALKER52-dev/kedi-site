@@ -8,7 +8,7 @@ const message = document.getElementById("message");
 
 
 /* =========================
-   EVET
+   EVET BUTONU
 ========================= */
 
 yesBtn.addEventListener("click", function () {
@@ -22,7 +22,8 @@ yesBtn.addEventListener("click", function () {
 
 
 /* =========================
-   HAYIR KAÇIŞI
+   HAYIR BUTONU
+   RASTGELE YERE IŞINLAN
 ========================= */
 
 document.addEventListener("mousemove", function (event) {
@@ -31,12 +32,10 @@ document.addEventListener("mousemove", function (event) {
         return;
     }
 
-
     const rect = noBtn.getBoundingClientRect();
 
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-
 
     const distance = Math.hypot(
         event.clientX - centerX,
@@ -44,95 +43,10 @@ document.addEventListener("mousemove", function (event) {
     );
 
 
-    /*
-       Mouse HAYIR'a yaklaşınca
-       ters yöne kaç
-    */
+    // Mouse HAYIR'a yaklaşınca
+    if (distance < 80) {
 
-    if (distance < 100) {
-
-        const dx = centerX - event.clientX;
-        const dy = centerY - event.clientY;
-
-
-        /*
-           Mouse'un ters yönünü hesapla
-        */
-
-        const length =
-            Math.hypot(dx, dy) || 1;
-
-        const directionX =
-            dx / length;
-
-        const directionY =
-            dy / length;
-
-
-        /*
-           Ne kadar kaçacağı
-        */
-
-        const escapeDistance = 180;
-
-
-        let newX =
-            rect.left +
-            directionX * escapeDistance;
-
-        let newY =
-            rect.top +
-            directionY * escapeDistance;
-
-
-        /*
-           Ekranın dışına çıkmasını engelle
-        */
-
-        const margin = 20;
-
-        newX = Math.max(
-            margin,
-            Math.min(
-                window.innerWidth -
-                rect.width -
-                margin,
-                newX
-            )
-        );
-
-        newY = Math.max(
-            margin,
-            Math.min(
-                window.innerHeight -
-                rect.height -
-                margin,
-                newY
-            )
-        );
-
-
-        /*
-           Butonu yeni konuma taşı
-        */
-
-        noBtn.style.position = "fixed";
-
-        noBtn.style.left =
-            newX + "px";
-
-        noBtn.style.top =
-            newY + "px";
-
-
-        /*
-           Küçük mesaj
-        */
-
-        if (message) {
-            message.textContent =
-                "YAKALAYAMAZSIN 😭";
-        }
+        teleportNoButton();
 
     }
 
@@ -140,7 +54,57 @@ document.addEventListener("mousemove", function (event) {
 
 
 /* =========================
-   TELEFONDA DOKUNUNCA KAÇ
+   RASTGELE KONUM
+========================= */
+
+function teleportNoButton() {
+
+    const rect = noBtn.getBoundingClientRect();
+
+    const margin = 25;
+
+    const maxX =
+        window.innerWidth -
+        rect.width -
+        margin;
+
+    const maxY =
+        window.innerHeight -
+        rect.height -
+        margin;
+
+
+    const randomX =
+        margin +
+        Math.random() *
+        (maxX - margin);
+
+
+    const randomY =
+        margin +
+        Math.random() *
+        (maxY - margin);
+
+
+    noBtn.style.position = "fixed";
+
+    noBtn.style.left =
+        randomX + "px";
+
+    noBtn.style.top =
+        randomY + "px";
+
+
+    if (message) {
+        message.textContent =
+            "YAKALAYAMAZSIN 😭";
+    }
+
+}
+
+
+/* =========================
+   TELEFON
 ========================= */
 
 noBtn.addEventListener(
@@ -149,37 +113,7 @@ noBtn.addEventListener(
 
         event.preventDefault();
 
-        const rect =
-            noBtn.getBoundingClientRect();
-
-        const margin = 20;
-
-
-        let newX =
-            Math.random() *
-            (
-                window.innerWidth -
-                rect.width -
-                margin * 2
-            ) + margin;
-
-
-        let newY =
-            Math.random() *
-            (
-                window.innerHeight -
-                rect.height -
-                margin * 2
-            ) + margin;
-
-
-        noBtn.style.position = "fixed";
-
-        noBtn.style.left =
-            newX + "px";
-
-        noBtn.style.top =
-            newY + "px";
+        teleportNoButton();
 
     },
     {
@@ -201,9 +135,7 @@ function createConfetti() {
         return;
     }
 
-
     container.innerHTML = "";
-
 
     const symbols = [
         "❤️",
