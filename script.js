@@ -1,17 +1,14 @@
 const home = document.getElementById("home");
 const yesPage = document.getElementById("yesPage");
-const noPage = document.getElementById("noPage");
 
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
 
 const message = document.getElementById("message");
 
-let noPageOpen = false;
-
 
 /* =========================
-   EVET BUTONU
+   EVET
 ========================= */
 
 yesBtn.addEventListener("click", function () {
@@ -25,188 +22,125 @@ yesBtn.addEventListener("click", function () {
 
 
 /* =========================
-   HAYIR EKRANINI GÖSTER
+   HAYIR KAÇIŞI
 ========================= */
 
-function showNoPage() {
+document.addEventListener("mousemove", function (event) {
 
-    if (noPageOpen) {
+    if (!home.classList.contains("active")) {
         return;
     }
 
-    noPageOpen = true;
 
-    home.classList.remove("active");
-    noPage.classList.add("active");
+    const rect = noBtn.getBoundingClientRect();
 
-
-    /*
-       5 saniye sonra tekrar ana ekrana dön
-    */
-
-    setTimeout(function () {
-
-        noPage.classList.remove("active");
-        home.classList.add("active");
-
-        noPageOpen = false;
-
-        message.textContent = "";
-
-        /*
-           HAYIR'ı tekrar normal yerine getir
-        */
-
-        noBtn.style.position = "relative";
-        noBtn.style.left = "0px";
-        noBtn.style.top = "0px";
-
-    }, 5000);
-
-}
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
 
 
-/* =========================
-   HAYIR BUTONUNU KAÇIR
-========================= */
-
-function moveNoButton(mouseX, mouseY) {
-
-    if (noPageOpen) {
-        return;
-    }
-
-    const buttonWidth = noBtn.offsetWidth;
-    const buttonHeight = noBtn.offsetHeight;
-
-    const margin = 20;
-
-    const maxX =
-        window.innerWidth -
-        buttonWidth -
-        margin;
-
-    const maxY =
-        window.innerHeight -
-        buttonHeight -
-        margin;
-
-    let newX;
-    let newY;
-
-    let attempts = 0;
-
-
-    do {
-
-        newX =
-            margin +
-            Math.random() *
-            Math.max(1, maxX - margin);
-
-        newY =
-            margin +
-            Math.random() *
-            Math.max(1, maxY - margin);
-
-        attempts++;
-
-    } while (
-        Math.hypot(
-            newX + buttonWidth / 2 - mouseX,
-            newY + buttonHeight / 2 - mouseY
-        ) < 170 &&
-        attempts < 100
+    const distance = Math.hypot(
+        event.clientX - centerX,
+        event.clientY - centerY
     );
 
 
-    noBtn.style.position = "fixed";
-    noBtn.style.left = newX + "px";
-    noBtn.style.top = newY + "px";
-
-
-    message.textContent =
-        "HAYIR BUTONU KAÇTI 😭";
-
-
     /*
-       Kötü kedileri göster
+       Mouse HAYIR'a yaklaşınca
+       ters yöne kaç
     */
 
-    showNoPage();
+    if (distance < 100) {
 
-}
-
-
-/* =========================
-   MOUSE HAREKETİ
-========================= */
-
-document.addEventListener(
-    "mousemove",
-    function (event) {
-
-        if (!home.classList.contains("active")) {
-            return;
-        }
-
-        if (noPageOpen) {
-            return;
-        }
-
-
-        const rect =
-            noBtn.getBoundingClientRect();
-
-
-        const centerX =
-            rect.left + rect.width / 2;
-
-        const centerY =
-            rect.top + rect.height / 2;
-
-
-        const distance =
-            Math.hypot(
-                event.clientX - centerX,
-                event.clientY - centerY
-            );
+        const dx = centerX - event.clientX;
+        const dy = centerY - event.clientY;
 
 
         /*
-           Mouse HAYIR'a
-           yeterince yaklaşınca
+           Mouse'un ters yönünü hesapla
         */
 
-        if (distance < 70) {
+        const length =
+            Math.hypot(dx, dy) || 1;
 
-            moveNoButton(
-                event.clientX,
-                event.clientY
-            );
+        const directionX =
+            dx / length;
 
+        const directionY =
+            dy / length;
+
+
+        /*
+           Ne kadar kaçacağı
+        */
+
+        const escapeDistance = 180;
+
+
+        let newX =
+            rect.left +
+            directionX * escapeDistance;
+
+        let newY =
+            rect.top +
+            directionY * escapeDistance;
+
+
+        /*
+           Ekranın dışına çıkmasını engelle
+        */
+
+        const margin = 20;
+
+        newX = Math.max(
+            margin,
+            Math.min(
+                window.innerWidth -
+                rect.width -
+                margin,
+                newX
+            )
+        );
+
+        newY = Math.max(
+            margin,
+            Math.min(
+                window.innerHeight -
+                rect.height -
+                margin,
+                newY
+            )
+        );
+
+
+        /*
+           Butonu yeni konuma taşı
+        */
+
+        noBtn.style.position = "fixed";
+
+        noBtn.style.left =
+            newX + "px";
+
+        noBtn.style.top =
+            newY + "px";
+
+
+        /*
+           Küçük mesaj
+        */
+
+        if (message) {
+            message.textContent =
+                "YAKALAYAMAZSIN 😭";
         }
 
     }
-);
+
+});
 
 
 /* =========================
-   HAYIR'A TIKLANIRSA
-========================= */
-
-noBtn.addEventListener(
-    "click",
-    function () {
-
-        showNoPage();
-
-    }
-);
-
-
-/* =========================
-   TELEFON
+   TELEFONDA DOKUNUNCA KAÇ
 ========================= */
 
 noBtn.addEventListener(
@@ -215,7 +149,37 @@ noBtn.addEventListener(
 
         event.preventDefault();
 
-        showNoPage();
+        const rect =
+            noBtn.getBoundingClientRect();
+
+        const margin = 20;
+
+
+        let newX =
+            Math.random() *
+            (
+                window.innerWidth -
+                rect.width -
+                margin * 2
+            ) + margin;
+
+
+        let newY =
+            Math.random() *
+            (
+                window.innerHeight -
+                rect.height -
+                margin * 2
+            ) + margin;
+
+
+        noBtn.style.position = "fixed";
+
+        noBtn.style.left =
+            newX + "px";
+
+        noBtn.style.top =
+            newY + "px";
 
     },
     {
@@ -233,6 +197,14 @@ function createConfetti() {
     const container =
         document.getElementById("confetti");
 
+    if (!container) {
+        return;
+    }
+
+
+    container.innerHTML = "";
+
+
     const symbols = [
         "❤️",
         "💕",
@@ -241,9 +213,6 @@ function createConfetti() {
         "✨",
         "🎉"
     ];
-
-
-    container.innerHTML = "";
 
 
     for (let i = 0; i < 80; i++) {
