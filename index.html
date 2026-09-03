@@ -3,10 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Anneee 🐱❤️</title>
+    <title>Anne Sana Bir Sorum Var 🐱</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -14,173 +13,106 @@
 <body>
 
     <!-- ANA EKRAN -->
-    <section id="mainScreen" class="screen active">
+    <main id="home" class="page active">
 
-        <div class="decor paw-one">🐾</div>
-        <div class="decor paw-two">🐾</div>
-        <div class="decor heart-one">♡</div>
-        <div class="decor heart-two">♡</div>
+        <div class="card">
 
-        <div class="content">
+            <div class="cats">
 
-            <div class="title-cat">🐱</div>
-
-            <h1>Anneee 🥺</h1>
-
-            <h2>
-                Bana bir kedi alır mısın?
-            </h2>
-
-            <p class="description">
-                Söz veriyorum çok güzel bakacağım.
-                Mama, su, sevgi... Hepsi benden! ❤️
-            </p>
-
-
-            <!-- KEDİ 1 VE 2 -->
-            <div class="main-cats">
-
-                <div class="photo-card">
-                    <img
-                        src="images/kedi1.jpg"
-                        alt="Kedi 1"
-                    >
-                </div>
-
-                <div class="photo-card">
-                    <img
-                        src="images/kedi2.jpg"
-                        alt="Kedi 2"
-                    >
-                </div>
+                <img src="images/kedi1.jpg" alt="Tatlı kedi">
+                <img src="images/kedi2.jpg" alt="Tatlı kedi">
 
             </div>
 
+            <h1>Anne, bana bir kedi alır mısın? 🥺🐱</h1>
 
-            <!-- BUTONLAR -->
+            <p class="subtitle">
+                Sadece bir tane... Hem çok tatlı olacak. ❤️
+            </p>
+
             <div class="buttons">
 
-                <button
-                    id="yesButton"
-                    class="yes-button"
-                >
+                <button id="yesBtn">
                     EVET ❤️
                 </button>
 
-                <button
-                    id="noButton"
-                    class="no-button"
-                >
+                <button id="noBtn">
                     HAYIR 😭
                 </button>
 
             </div>
 
-            <p id="escapeMessage">
+            <p id="message"></p>
+
+        </div>
+
+    </main>
+
+
+    <!-- EVET EKRANI -->
+    <section id="yesPage" class="page">
+
+        <div class="result-card">
+
+            <h1>
+                YAŞASINNN! 🎉🐱❤️
+            </h1>
+
+            <p>
+                Dünyanın en iyi annesisin! 😭❤️
+            </p>
+
+            <img
+                src="images/kedi3.jpg"
+                alt="Mutlu kedi"
+                class="result-cat"
+            >
+
+            <p class="big-text">
+                KEDİ GELİYORRR! 🐾
             </p>
 
         </div>
 
+        <div id="confetti"></div>
+
     </section>
 
 
+    <!-- HAYIR EKRANI -->
+    <section id="noPage" class="page">
 
-    <!-- EVET EKRANI -->
-    <section id="yesScreen" class="screen">
-
-        <div id="confetti"></div>
-
-        <div class="result">
-
-            <div class="result-emoji">
-                🥳 ❤️ 🐾 ❤️ 🥳
-            </div>
+        <div class="result-card no-card">
 
             <h1>
-                YAAAAŞASINNN!
+                PEKİ ÖYLE OLSUN 😾
             </h1>
 
-            <h2>
-                KEDİMİZ OLUYOR!!! 🐱❤️
-            </h2>
+            <p>
+                Bu kararın sonuçları ağır olacak...
+            </p>
 
-            <div class="result-photo happy-photo">
+            <div class="bad-cats">
 
                 <img
-                    src="images/kedi3.jpg"
-                    alt="Mutlu kedi"
+                    src="images/kedi4.jpg"
+                    alt="Kızgın kedi"
+                >
+
+                <img
+                    src="images/kedi5.jpg"
+                    alt="Kızgın kedi"
                 >
 
             </div>
 
-            <p class="result-text">
-                Teşekkür ederim anne! ❤️
-            </p>
-
-            <div class="heart-line">
-                ❤️ 💕 💗 💖 💗 💕 ❤️
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- HAYIR EKRANI -->
-    <section id="noScreen" class="screen">
-
-        <div class="result sad-result">
-
-            <div class="angry-emoji">
-                😾
-            </div>
-
-            <h1>
-                ANNEEE! 😾
-            </h1>
-
-            <h2>
-                BU KEDİLER ÇOK SİNİRLENDİ!
-            </h2>
-
-
-            <!-- KEDİ 4 VE 5 -->
-            <div class="bad-cats">
-
-                <div class="result-photo angry-photo">
-
-                    <img
-                        src="images/kedi4.jpg"
-                        alt="Sinirli kedi 1"
-                    >
-
-                </div>
-
-                <div class="result-photo angry-photo">
-
-                    <img
-                        src="images/kedi5.jpg"
-                        alt="Sinirli kedi 2"
-                    >
-
-                </div>
-
-            </div>
-
-
-            <p class="angry-text">
-                Bak ne hale geldiler... 😭
-            </p>
-
-            <p class="small-text">
-                Bir daha düşünsen iyi olur. 🐱
+            <p class="big-text">
+                BUNLAR SENİ İZLİYOR 👀🐱
             </p>
 
         </div>
 
     </section>
-
 
 
     <script src="script.js"></script>
