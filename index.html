@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Anneee 🐱❤️</title>
 
@@ -11,140 +13,178 @@
 
 <body>
 
-    <!-- =========================
-         ANA EKRAN
-    ========================== -->
+    <!-- ANA EKRAN -->
+    <section id="mainScreen" class="screen active">
 
-    <main id="mainScreen" class="screen active">
+        <div class="decor paw-one">🐾</div>
+        <div class="decor paw-two">🐾</div>
+        <div class="decor heart-one">♡</div>
+        <div class="decor heart-two">♡</div>
 
-        <div class="paw paw1">🐾</div>
-        <div class="paw paw2">🐾</div>
-        <div class="paw paw3">🐾</div>
+        <div class="content">
 
-        <div class="main-content">
+            <div class="title-cat">🐱</div>
 
             <h1>Anneee 🥺</h1>
 
-            <p class="question">
-                Bana bir kedi alır mısın? 🐱❤️
+            <h2>
+                Bana bir kedi alır mısın?
+            </h2>
+
+            <p class="description">
+                Söz veriyorum çok güzel bakacağım.
+                Mama, su, sevgi... Hepsi benden! ❤️
             </p>
 
-            <p class="subtext">
-                Söz veriyorum, çok güzel bakacağım... 🥹
-            </p>
 
-            <div class="cats">
+            <!-- KEDİ 1 VE 2 -->
+            <div class="main-cats">
 
-                <div class="cat-card">
-                    <img src="images/kedi1.jpg" alt="Sevimli kedi">
+                <div class="photo-card">
+                    <img
+                        src="images/kedi1.jpg"
+                        alt="Kedi 1"
+                    >
                 </div>
 
-                <div class="cat-card">
-                    <img src="images/kedi2.jpg" alt="Sevimli kedi">
+                <div class="photo-card">
+                    <img
+                        src="images/kedi2.jpg"
+                        alt="Kedi 2"
+                    >
                 </div>
 
             </div>
 
+
+            <!-- BUTONLAR -->
             <div class="buttons">
 
-                <button id="yesButton" class="yes-button">
+                <button
+                    id="yesButton"
+                    class="yes-button"
+                >
                     EVET ❤️
                 </button>
 
-                <button id="noButton" class="no-button">
+                <button
+                    id="noButton"
+                    class="no-button"
+                >
                     HAYIR 😭
                 </button>
 
             </div>
 
-            <p id="escapeText" class="escape-text"></p>
+            <p id="escapeMessage">
+            </p>
 
         </div>
 
-    </main>
+    </section>
 
 
-    <!-- =========================
-         EVET EKRANI
-    ========================== -->
 
-    <main id="yesScreen" class="screen">
+    <!-- EVET EKRANI -->
+    <section id="yesScreen" class="screen">
 
-        <div id="confettiContainer"></div>
+        <div id="confetti"></div>
 
-        <div class="celebration">
+        <div class="result">
 
-            <div class="emoji-rain">
-                🐾 ❤️ 🐾 ❤️ 🐾
+            <div class="result-emoji">
+                🥳 ❤️ 🐾 ❤️ 🥳
             </div>
 
             <h1>
-                YAAAAŞASINNN! 🎉
+                YAAAAŞASINNN!
             </h1>
 
-            <p class="big-text">
+            <h2>
                 KEDİMİZ OLUYOR!!! 🐱❤️
-            </p>
+            </h2>
 
-            <div class="happy-cat">
-                <img src="images/kedi3.jpg" alt="Mutlu kedi">
+            <div class="result-photo happy-photo">
+
+                <img
+                    src="images/kedi3.jpg"
+                    alt="Mutlu kedi"
+                >
+
             </div>
 
-            <p class="love-text">
-                Teşekkür ederim anne ❤️
+            <p class="result-text">
+                Teşekkür ederim anne! ❤️
             </p>
 
-            <div class="hearts">
-                ❤️ 💕 💗 💖 💕 ❤️
+            <div class="heart-line">
+                ❤️ 💕 💗 💖 💗 💕 ❤️
             </div>
 
         </div>
 
-    </main>
+    </section>
 
 
-    <!-- =========================
-         HAYIR EKRANI
-    ========================== -->
 
-    <main id="noScreen" class="screen">
+    <!-- HAYIR EKRANI -->
+    <section id="noScreen" class="screen">
 
-        <div class="sad-container">
+        <div class="result sad-result">
 
-            <div class="sad-emoji">
-                😿
+            <div class="angry-emoji">
+                😾
             </div>
 
             <h1>
-                Anne... gerçekten mi?
+                ANNEEE! 😾
             </h1>
 
-            <p class="sad-title">
-                Bu kediler bunu hak edecek ne yaptı? 🥺
-            </p>
+            <h2>
+                BU KEDİLER ÇOK SİNİRLENDİ!
+            </h2>
 
-            <div class="sad-cats">
 
-                <div class="sad-cat">
-                    <img src="images/kedi4.jpg" alt="Üzgün kedi">
+            <!-- KEDİ 4 VE 5 -->
+            <div class="bad-cats">
+
+                <div class="result-photo angry-photo">
+
+                    <img
+                        src="images/kedi4.jpg"
+                        alt="Sinirli kedi 1"
+                    >
+
                 </div>
 
-                <div class="sad-cat">
-                    <img src="images/kedi5.jpg" alt="Üzgün kedi">
+                <div class="result-photo angry-photo">
+
+                    <img
+                        src="images/kedi5.jpg"
+                        alt="Sinirli kedi 2"
+                    >
+
                 </div>
 
             </div>
 
-            <p class="sad-text">
-                Bak yüzlerine... 😭🐱
+
+            <p class="angry-text">
+                Bak ne hale geldiler... 😭
+            </p>
+
+            <p class="small-text">
+                Bir daha düşünsen iyi olur. 🐱
             </p>
 
         </div>
 
-    </main>
+    </section>
+
 
 
     <script src="script.js"></script>
 
 </body>
+
 </html>
